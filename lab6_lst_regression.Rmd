@@ -58,7 +58,7 @@ We will start by exploring the distribution of our variables.
 
 {Your assessment of the variables' normality goes here.}
 
-**Question 2** _Use tmap to map these same variables using Jenks natural breaks as the classification method. For an extra challenge, use `tmap_arrange` to plot all maps in a single figure. Because there are many points, you may want to use small point sizes._
+**Question 2** _Use tmap to map these same variables using fisher" as the classification method/style. For an extra challenge, use `tmap_arrange` to plot all maps in a single figure._
 
 ```{r}
 
@@ -119,15 +119,6 @@ We will start by exploring the distribution of our variables.
 
 **Challenge question**
 
-#Option 1
-The sample includes both developed and non-developed block groups, and the processes that drive surface temperature may differ between them. Use the `developed` variable to split the dataset into two groups, and then create two regression models, one for each group, using the same independent variables in each (use at least four of the environmental variables). Interpret the results of each model and then explain the importance of any differences in the model coefficients between them, focusing on direction, magnitude, and significance. Why might a variable such as impervious surface or vegetation matter more in one group than the other?
-
-```{r}
-
-```
-
-
-#Option 2
 So far we have treated land cover only through continuous variables. Add the land cover class (`nlcd_label`) to your multivariate model from Question 5 as a categorical variable. Use `relevel()` or `fct_relevel()` to choose a meaningful reference category (for example, developed, medium intensity). Interpret the coefficients for the land cover categories relative to your reference category, and explain how the coefficients for the continuous variables changed after adding land cover. Also chart and map the residuals of the new model to assess whether it improves on the model from Question 5. Finally, write a short section that summarises what, if anything, this model tells you.
 
 ```{r}
