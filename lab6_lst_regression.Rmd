@@ -25,22 +25,12 @@ This lab focuses on regression techniques. You'll be analyzing the association o
 Let's import the dataset.
 
 ```{r}
-lab6_data<-st_read("data/bg_centroids_covariates.gpkg")
-```
-
-The dataset for this lab contains one point for each 2020 census block group in California, Oregon, and Washington (the block group centroid), along with values for a number of environmental variables extracted at that point using Google Earth Engine. Some block groups have missing values (for example, where the centroid fell on a pixel with persistent cloud cover), so we will remove those before analysis.
-
-```{r}
-lab6_data<-lab6_data |>
-  drop_na(lst_c, ndvi, ndbi, ndwi, impervious_pct, tree_cover_pct,
-          prism_tmean_c, prism_ppt_mm, elevation, slope, nlcd_class)
-nrow(lab6_data)
+lab6_data<-st_read("data/lab6_gee_lstdata.gpkg") 
 ```
 
 The variables in the dataset are:
 
 * GISJOIN: Unique block group identifier from NHGIS (2020 block groups)
-* lon/lat: Longitude and latitude of the block group centroid (WGS84)
 * lst_c: Land surface temperature (C), the median of clear-sky Landsat 8/9 observations from June-August 2021. This is the thermal "skin" temperature of the surface at the satellite overpass (late morning), not air temperature.
 * ndvi: Normalized difference vegetation index from Landsat (June-August 2021 median). Values range from -1 to 1, with higher values indicating more vegetation.
 * ndbi: Normalized difference built-up index from Landsat (June-August 2021 median). Higher values indicate more built-up or bare surfaces.
@@ -50,7 +40,7 @@ The variables in the dataset are:
 * prism_tmean_c: Mean air temperature (C) from June-August 2021 (data from PRISM, 4 km resolution)
 * prism_ppt_mm: Total precipitation (mm) from June-August 2021 (data from PRISM, 4 km resolution)
 * elevation: Elevation in meters (data from the Shuttle Radar Topography Mission/NASA)
-* slope/aspect: Terrain slope and aspect in degrees, derived from the elevation data
+* slope: Terrain slope and aspect in degrees, derived from the elevation data
 * nlcd_class/nlcd_label: Land cover class code and label (data from the 2021 National Land Cover Database)
 * developed: 1 if the land cover class at the centroid is one of the NLCD developed classes (21-24), 0 otherwise
 
@@ -60,7 +50,7 @@ Our primary research question is how the vegetation, land cover, climate, and te
 
 We will start by exploring the distribution of our variables.
 
-**Question 1** _Create histograms for LST, NDVI, impervious surface, tree cover, mean air temperature, precipitation, and elevation. Based on these graphs, assess the normality of these variables._
+**Question 1** _Create histograms for LST, NDVI, impervious surface, tree cover, precipitation, slope, and elevation. Based on these graphs, assess the normality of these variables._
 
 ```{r}
 #Code goes here.

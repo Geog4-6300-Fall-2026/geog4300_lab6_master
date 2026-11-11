@@ -23,26 +23,21 @@ library(lmtest)
 ```
 
 ```{r}
-lab6_data<-st_read("data/gee_out_bg/bg_centroids_covariates.gpkg")
+lab6_data<-st_read("data/lab6_gee_lstdata.gpkg")
 ```
 
 ```{r}
-lab6_data<-lab6_data |>
-  drop_na(lst_c, ndvi, ndbi, ndwi, impervious_pct, tree_cover_pct,
-          prism_tmean_c, prism_ppt_mm, elevation, slope, nlcd_class)
-nrow(lab6_data)
-
 # Non-spatial copy for modeling and plotting
 lab_df<-st_drop_geometry(lab6_data)
 ```
 
 ###Part 1: Analysis of summer 2021 data###
 
-**Question 1** _Create histograms for LST, NDVI, impervious surface, tree cover, mean air temperature, precipitation, and elevation. Based on these graphs, assess the normality of these variables._
+**Question 1** _Create histograms for LST, NDVI, impervious surface, tree cover, precipitation, and elevation. Based on these graphs, assess the normality of these variables._
 
 ```{r q1, fig.width=9, fig.height=7}
 q1_vars<-c("lst_c", "ndvi", "impervious_pct", "tree_cover_pct",
-           "prism_tmean_c", "prism_ppt_mm", "elevation")
+           "slope", "prism_ppt_mm", "elevation")
 
 lab_df |>
   select(all_of(q1_vars)) |>
@@ -67,7 +62,7 @@ Full credit for identifying which variables are close to normal and which are cl
 ```{r q2, fig.width=11, fig.height=9}
 tmap_mode("plot")
 
-# Jenks on ~33,000 points: classInt samples the data for speed, so breaks can vary slightly by seed
+# Jenks on ~11,000 points: classInt samples the data for speed, so breaks can vary slightly by seed
 make_map<-function(var, title, pal){
   tm_shape(lab6_data) +
     tm_dots(fill = var,
