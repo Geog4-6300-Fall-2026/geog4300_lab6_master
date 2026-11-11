@@ -18,9 +18,9 @@ library(tmap)
 ```
 
 **Overview:**
-This lab focuses on regression techniques. You'll be analyzing the association of various land cover, vegetation, climate, and terrain characteristics with summer land surface temperature (LST) in block groups across California, Oregon, and Washington. The goal is to understand which characteristics of places are associated with urban heat, and how well a linear regression model can explain it.
+This lab focuses on regression techniques. You'll be analyzing the association of various land cover, vegetation, climate, and terrain characteristics with summer land surface temperature (LST) in tracts across California, Oregon, and Washington. The goal is to understand which characteristics of places are associated with urban heat, and how well a linear regression model can explain it.
 
-###Data and research questions###
+### Data and research questions
 
 Let's import the dataset.
 
@@ -30,7 +30,7 @@ lab6_data<-st_read("data/lab6_gee_lstdata.gpkg")
 
 The variables in the dataset are:
 
-* GISJOIN: Unique block group identifier from NHGIS (2020 block groups)
+* GISJOIN: Unique tract identifier from NHGIS (2024)
 * lst_c: Land surface temperature (C), the median of clear-sky Landsat 8/9 observations from June-August 2021. This is the thermal "skin" temperature of the surface at the satellite overpass (late morning), not air temperature.
 * ndvi: Normalized difference vegetation index from Landsat (June-August 2021 median). Values range from -1 to 1, with higher values indicating more vegetation.
 * ndbi: Normalized difference built-up index from Landsat (June-August 2021 median). Higher values indicate more built-up or bare surfaces.
@@ -40,13 +40,13 @@ The variables in the dataset are:
 * prism_tmean_c: Mean air temperature (C) from June-August 2021 (data from PRISM, 4 km resolution)
 * prism_ppt_mm: Total precipitation (mm) from June-August 2021 (data from PRISM, 4 km resolution)
 * elevation: Elevation in meters (data from the Shuttle Radar Topography Mission/NASA)
-* slope: Terrain slope and aspect in degrees, derived from the elevation data
+* slope: Terrain slope in degrees, derived from the elevation data
 * nlcd_class/nlcd_label: Land cover class code and label (data from the 2021 National Land Cover Database)
 * developed: 1 if the land cover class at the centroid is one of the NLCD developed classes (21-24), 0 otherwise
 
-Our primary research question is how the vegetation, land cover, climate, and terrain variables in our dataset are predictive of land surface temperature. Note that the variables come from different sources at different spatial resolutions, and that the sample is dominated by developed areas (a large majority of block groups are in developed land cover classes), so our results speak most directly to urban and suburban heat.
+Our primary research question is how the vegetation, land cover, climate, and terrain variables in our dataset are predictive of land surface temperature. Note that the variables come from different sources at different spatial resolutions, and that the sample is dominated by developed areas (a large majority of tracts are in developed land cover classes), so our results speak most directly to urban and suburban heat.
 
-###Part 1: Analysis of summer 2021 data###
+### Part 1: Analysis of summer 2021 data
 
 We will start by exploring the distribution of our variables.
 
@@ -58,7 +58,7 @@ We will start by exploring the distribution of our variables.
 
 {Your assessment of the variables' normality goes here.}
 
-**Question 2** _Use tmap to map these same variables using fisher" as the classification method/style. For an extra challenge, use `tmap_arrange` to plot all maps in a single figure._
+**Question 2** _Use tmap to map these same variables using "fisher" as the classification method/style. For an extra challenge, use `tmap_arrange` to plot all maps in a single figure._
 
 ```{r}
 
@@ -103,7 +103,7 @@ We will start by exploring the distribution of our variables.
 
 {Interpretation goes here}
 
-**Question 9** _How would you summarise the results of this model in a sentence or two? In addition, looking at the full model and your diagnostics, do you feel this is a model that provides meaningful results? Explain your answer. As part of your answer, consider that NDVI (or tree cover), impervious surface, and LST are all derived from satellite data, and that neighboring block groups tend to have similar values. How might each of these affect how you interpret the model?_
+**Question 9** _How would you summarise the results of this model in a sentence or two? In addition, looking at the full model and your diagnostics, do you feel this is a model that provides meaningful results? Explain your answer. As part of your answer, consider that NDVI (or tree cover), impervious surface, and LST are all derived from satellite data, and that neighboring tracts tend to have similar values. How might each of these affect how you interpret the model?_
 
 {Discussion here.}
 
@@ -119,7 +119,7 @@ We will start by exploring the distribution of our variables.
 
 **Challenge question**
 
-So far we have treated land cover only through continuous variables. Add the land cover class (`nlcd_label`) to your multivariate model from Question 5 as a categorical variable. Use `relevel()` or `fct_relevel()` to choose a meaningful reference category (for example, developed, medium intensity). Interpret the coefficients for the land cover categories relative to your reference category, and explain how the coefficients for the continuous variables changed after adding land cover. Also chart and map the residuals of the new model to assess whether it improves on the model from Question 5. Finally, write a short section that summarises what, if anything, this model tells you.
+So far we have treated land cover only through continuous variables. Add the land cover class (`nlcd_label`) to your multivariate model from Question 5 as a categorical variable. Use `relevel()` or `fct_relevel()` to choose a meaningful reference category (for example, Developed, medium). Interpret the coefficients for the land cover categories relative to your reference category, and explain how the coefficients for the continuous variables changed after adding land cover. Also chart and map the residuals of the new model to assess whether it improves on the model from Question 5. Finally, write a short section that summarises what, if anything, this model tells you.
 
 ```{r}
 
